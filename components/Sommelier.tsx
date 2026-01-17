@@ -1,8 +1,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Wine, ChatMessage } from '../types';
+import { Wine, ChatMessage } from '../types.ts';
 import { Send, Loader2, Sparkles } from 'lucide-react';
-import { getSommelierAdvice } from '../services/geminiService';
+import { getSommelierAdvice } from '../services/geminiService.ts';
 
 interface SommelierProps {
   cellar: Wine[];
@@ -31,7 +31,6 @@ const Sommelier: React.FC<SommelierProps> = ({ cellar }) => {
     setIsLoading(true);
 
     try {
-      // Map to Gemini format
       const history = [...messages, userMsg].map(m => ({
         role: m.role,
         parts: [{ text: m.content }]

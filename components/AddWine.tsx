@@ -1,8 +1,8 @@
 
 import React, { useState, useRef } from 'react';
-import { Wine } from '../types';
-import { Camera, Upload, X, Loader2, Wand2 } from 'lucide-react';
-import { analyzeLabel } from '../services/geminiService';
+import { Wine } from '../types.ts';
+import { Camera, X, Loader2 } from 'lucide-react';
+import { analyzeLabel } from '../services/geminiService.ts';
 
 interface AddWineProps {
   onAdd: (wine: Wine) => void;
@@ -73,7 +73,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold font-serif">Add New Bottle</h2>
-        <button onClick={onCancel} className="p-2 hover:bg-slate-100 rounded-full">
+        <button onClick={onCancel} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
           <X size={20} />
         </button>
       </div>
@@ -88,7 +88,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
         />
         <div 
           onClick={() => fileInputRef.current?.click()}
-          className="w-full aspect-video rounded-3xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center cursor-pointer hover:border-red-900/30 hover:bg-red-50/50 transition-all overflow-hidden"
+          className="w-full aspect-video rounded-3xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center cursor-pointer hover:border-red-900/30 hover:bg-red-50/50 transition-all overflow-hidden bg-white shadow-sm"
         >
           {imagePreview ? (
             <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
@@ -103,7 +103,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
           )}
         </div>
         {loading && (
-          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center gap-2 rounded-3xl">
+          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center gap-2 rounded-3xl z-10">
             <Loader2 size={32} className="text-red-900 animate-spin" />
             <p className="text-sm font-bold text-slate-600 animate-pulse">AI is reading the label...</p>
           </div>
@@ -116,7 +116,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
             <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 ml-1">Wine Name</label>
             <input 
               required
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10 font-medium"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10 font-medium bg-white shadow-sm"
               value={formData.name}
               onChange={e => setFormData({...formData, name: e.target.value})}
               placeholder="e.g. Opus One"
@@ -125,7 +125,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
           <div className="col-span-2">
             <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 ml-1">Producer</label>
             <input 
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10 bg-white shadow-sm"
               value={formData.producer}
               onChange={e => setFormData({...formData, producer: e.target.value})}
               placeholder="e.g. Baron Philippe de Rothschild"
@@ -134,7 +134,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
           <div>
             <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 ml-1">Vintage</label>
             <input 
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10 bg-white shadow-sm"
               value={formData.vintage}
               onChange={e => setFormData({...formData, vintage: e.target.value})}
               placeholder="2018"
@@ -143,7 +143,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
           <div>
             <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 ml-1">Region</label>
             <input 
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10 bg-white shadow-sm"
               value={formData.region}
               onChange={e => setFormData({...formData, region: e.target.value})}
               placeholder="Napa Valley"
@@ -152,7 +152,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
           <div>
             <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 ml-1">Type</label>
             <select 
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-red-900/10"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-red-900/10 shadow-sm"
               value={formData.type}
               onChange={e => setFormData({...formData, type: e.target.value as any})}
             >
@@ -167,7 +167,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
             <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 ml-1">Quantity</label>
             <input 
               type="number"
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-900/10 bg-white shadow-sm"
               value={formData.quantity}
               onChange={e => setFormData({...formData, quantity: parseInt(e.target.value) || 0})}
             />

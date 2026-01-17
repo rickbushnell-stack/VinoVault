@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { Wine, View } from './types';
-import Cellar from './components/Cellar';
-import Sommelier from './components/Sommelier';
-import AddWine from './components/AddWine';
-import WineDetail from './components/WineDetail';
+import { Wine, View } from './types.ts';
+import Cellar from './components/Cellar.tsx';
+import Sommelier from './components/Sommelier.tsx';
+import AddWine from './components/AddWine.tsx';
+import WineDetail from './components/WineDetail.tsx';
 import { 
   Wine as WineIcon, 
   Plus, 
@@ -19,7 +19,6 @@ const App: React.FC = () => {
   const [selectedWineId, setSelectedWineId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Load from LocalStorage
   useEffect(() => {
     const saved = localStorage.getItem('vino_vault_wines');
     if (saved) {
@@ -31,7 +30,6 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Save to LocalStorage
   useEffect(() => {
     localStorage.setItem('vino_vault_wines', JSON.stringify(wines));
   }, [wines]);
@@ -96,14 +94,13 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col max-w-2xl mx-auto bg-[#fdfcfb]">
-      {/* Header */}
       <header className="px-6 py-6 flex items-center justify-between sticky top-0 bg-[#fdfcfb]/80 backdrop-blur-md z-30">
-        <div className="flex items-center gap-2" onClick={() => setCurrentView('cellar')}>
-          <div className="w-10 h-10 wine-gradient rounded-xl flex items-center justify-center text-white cursor-pointer shadow-lg shadow-red-900/10">
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentView('cellar')}>
+          <div className="w-10 h-10 wine-gradient rounded-xl flex items-center justify-center text-white shadow-lg shadow-red-900/10">
             <WineIcon size={24} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 cursor-pointer">VinoVault</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">VinoVault</h1>
             <p className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">Your Personal Sommelier</p>
           </div>
         </div>
@@ -115,12 +112,10 @@ const App: React.FC = () => {
         </button>
       </header>
 
-      {/* Content */}
       <main className="flex-1 px-6 pb-24 overflow-y-auto">
         {renderView()}
       </main>
 
-      {/* Navigation Bar (Mobile Style) */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-slate-100 px-8 py-4 z-40 max-w-2xl mx-auto flex justify-between items-center shadow-2xl rounded-t-3xl">
         <button 
           onClick={() => setCurrentView('cellar')}
@@ -144,7 +139,7 @@ const App: React.FC = () => {
              <Plus size={28} />
            </button>
         </div>
-        <div className="w-12"></div> {/* Spacer for symmetry if needed, or more icons */}
+        <div className="w-12"></div>
       </nav>
     </div>
   );

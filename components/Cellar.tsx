@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Wine } from '../types';
+import { Wine } from '../types.ts';
 import { Star } from 'lucide-react';
 
 interface CellarProps {

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Wine } from '../types';
+import { Wine } from '../types.ts';
 import { ArrowLeft, Trash2, Star, Plus, Minus, Edit3, Save } from 'lucide-react';
 
 interface WineDetailProps {
@@ -31,17 +31,17 @@ const WineDetail: React.FC<WineDetailProps> = ({ wine, onUpdate, onDelete, onBac
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-300 pb-20">
       <div className="flex items-center justify-between mb-6">
-        <button onClick={onBack} className="p-2 -ml-2 hover:bg-slate-100 rounded-full">
+        <button onClick={onBack} className="p-2 -ml-2 hover:bg-slate-100 rounded-full transition-colors">
           <ArrowLeft size={20} />
         </button>
         <div className="flex gap-2">
           <button 
             onClick={() => setIsEditing(!isEditing)} 
-            className={`p-2 rounded-full ${isEditing ? 'bg-red-50 text-red-900' : 'hover:bg-slate-100 text-slate-400'}`}
+            className={`p-2 rounded-full transition-colors ${isEditing ? 'bg-red-50 text-red-900' : 'hover:bg-slate-100 text-slate-400'}`}
           >
             <Edit3 size={20} />
           </button>
-          <button onClick={() => onDelete(wine.id)} className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-full">
+          <button onClick={() => onDelete(wine.id)} className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-full transition-colors">
             <Trash2 size={20} />
           </button>
         </div>
@@ -72,7 +72,6 @@ const WineDetail: React.FC<WineDetailProps> = ({ wine, onUpdate, onDelete, onBac
       </div>
 
       <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 space-y-6">
-        {/* Rating & Quantity */}
         <div className="flex items-center justify-between py-2">
           <div className="flex flex-col gap-1">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Your Rating</span>
