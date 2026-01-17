@@ -1,0 +1,7 @@
+{
+  "name": "VinoVault",
+  "description": "An elegant wine cellar management application. Track your collection, scan labels with AI, and consult with a virtual sommelier for perfect pairings.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
