@@ -1,13 +1,12 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { Wine } from "../types.ts";
 
-const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+const getAI = () => new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
 
 export const analyzeLabel = async (base64Image: string): Promise<Partial<Wine>> => {
   const ai = getAI();
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-2.0-flash-exp',
     contents: {
       parts: [
         {
@@ -37,7 +36,6 @@ export const analyzeLabel = async (base64Image: string): Promise<Partial<Wine>> 
       },
     },
   });
-
   try {
     return JSON.parse(response.text || "{}");
   } catch (error) {
@@ -52,20 +50,20 @@ export const getSommelierAdvice = async (history: { role: string; parts: { text:
   const cellarContext = cellar.length > 0 
     ? `User's current cellar contains: ${cellar.map(w => `${w.vintage} ${w.producer} ${w.name}`).join(', ')}.`
     : "User's cellar is currently empty.";
-
+  
   const systemInstruction = `You are an expert sommelier with 30 years of experience. 
   You provide refined, helpful, and sophisticated advice about wine pairings, storage, and tasting notes.
   Reference the user's cellar when appropriate. Keep responses concise but elegant.
   ${cellarContext}`;
-
+  
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-2.0-flash-exp',
     contents: history as any,
     config: {
       systemInstruction,
       temperature: 0.7,
     }
   });
-
+  
   return response.text;
 };
