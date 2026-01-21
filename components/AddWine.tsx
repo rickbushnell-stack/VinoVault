@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Wine } from '../types.ts';
 import { Camera, X, Loader2 } from 'lucide-react';
@@ -84,6 +83,7 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
           ref={fileInputRef} 
           onChange={handleFileChange} 
           accept="image/*" 
+          capture="environment"
           className="hidden" 
         />
         <div 
