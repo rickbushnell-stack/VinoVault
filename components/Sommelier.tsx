@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Wine, ChatMessage } from '../types.ts';
 import { Send, Loader2, Sparkles } from 'lucide-react';
@@ -41,7 +40,8 @@ const Sommelier: React.FC<SommelierProps> = ({ cellar }) => {
         setMessages(prev => [...prev, { role: 'model', content: response }]);
       }
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'model', content: "I apologize, but I am having trouble connecting to my knowledge base right now." }]);
+      console.error('Sommelier error:', error);
+      setMessages(prev => [...prev, { role: 'model', content: "I apologize, but I am having trouble connecting to my knowledge base right now. Please make sure the API key is configured correctly." }]);
     } finally {
       setIsLoading(false);
     }
