@@ -3,15 +3,13 @@
   "name": "vinovault",
   "version": "1.0.0",
   "private": true,
-  "description": "Elegant wine cellar management",
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "@google/genai": "^1.37.0",
-    "lucide-react": "^0.468.0",
-    "serve": "^14.2.4"
+    "lucide-react": "^0.468.0"
   },
   "scripts": {
-    "start": "serve -s . -l 8080"
+    "start": "node server.js"
   }
 }
