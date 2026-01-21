@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Wine } from '../types.ts';
-import { Camera, X, Loader2 } from 'lucide-react';
+import { Camera, X, Loader2, Image } from 'lucide-react';
 import { analyzeLabel } from '../services/geminiService.ts';
 
 interface AddWineProps {
@@ -21,7 +21,8 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
     notes: '',
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -78,18 +79,25 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
       </div>
 
       <div className="mb-8 relative group">
+        {/* Hidden file inputs */}
         <input 
           type="file" 
-          ref={fileInputRef} 
+          ref={cameraInputRef} 
           onChange={handleFileChange} 
           accept="image/*" 
           capture="environment"
           className="hidden" 
         />
-        <div 
-          onClick={() => fileInputRef.current?.click()}
-          className="w-full aspect-video rounded-3xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center cursor-pointer hover:border-red-900/30 hover:bg-red-50/50 transition-all overflow-hidden bg-white shadow-sm"
-        >
+        <input 
+          type="file" 
+          ref={galleryInputRef} 
+          onChange={handleFileChange} 
+          accept="image/*"
+          className="hidden" 
+        />
+        
+        {/* Image preview or placeholder */}
+        <div className="w-full aspect-video rounded-3xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center overflow-hidden bg-white shadow-sm">
           {imagePreview ? (
             <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
           ) : (
@@ -97,11 +105,58 @@ const AddWine: React.FC<AddWineProps> = ({ onAdd, onCancel }) => {
               <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-2">
                 <Camera size={24} />
               </div>
-              <p className="font-semibold text-slate-600">Scan Bottle Label</p>
+              <p className="font-semibold text-slate-600">Scan or Upload Label</p>
               <p className="text-xs text-slate-400 mt-1">AI will automatically fill the details</p>
             </>
           )}
         </div>
+        
+        {/* Button options */}
+        {!imagePreview && (
+          <div className="flex gap-3 mt-4">
+            <button
+              type="button"
+              onClick={() => cameraInputRef.current?.click()}
+              className="flex-1 py-3 px-4 bg-slate-900 text-white font-semibold rounded-xl shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2"
+            >
+              <Camera size={20} />
+              Take Photo
+            </button>
+            <button
+              type="button"
+              onClick={() => galleryInputRef.current?.click()}
+              className="flex-1 py-3 px-4 bg-white border-2 border-slate-900 text-slate-900 font-semibold rounded-xl shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2"
+            >
+              <Image size={20} />
+              Choose Photo
+            </button>
+          </div>
+        )}
+        
+        {/* Change photo button when image is selected */}
+        {imagePreview && !loading && (
+          <button
+            type="button"
+            onClick={() => {
+              setImagePreview(null);
+              setFormData({
+                name: '',
+                producer: '',
+                vintage: '',
+                region: '',
+                varietal: '',
+                type: 'Red',
+                quantity: 1,
+                notes: '',
+              });
+            }}
+            className="mt-4 w-full py-3 px-4 bg-slate-100 text-slate-700 font-semibold rounded-xl active:scale-95 transition-transform"
+          >
+            Change Photo
+          </button>
+        )}
+        
+        {/* Loading overlay */}
         {loading && (
           <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center gap-2 rounded-3xl z-10">
             <Loader2 size={32} className="text-red-900 animate-spin" />
